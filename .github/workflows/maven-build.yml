@@ -8,6 +8,12 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'cucumber tags to execute'
+        required: true
+        default: '@regression'
 
 jobs:
   build:
@@ -24,7 +30,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Execute Regression tests
-        run: ./mvnw clean test -Dcucumber.filter.tags="@regression"
+        run: ./mvnw clean test -Dcucumber.filter.tags="${CUCUMBER_TAGS}"
+        env:
+          CUCUMBER_TAGS: ${{ github.event.inputs.tags }}
 
       - name: Archive Cucumber HTML Report
         uses: actions/upload-artifact@v3
