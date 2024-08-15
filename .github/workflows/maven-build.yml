@@ -23,5 +23,11 @@ jobs:
           java-version: 8
           distribution: 'temurin'
 
-      - name: Run Maven Build
+      - name: Execute Regression tests
         run: ./mvnw clean test -Dcucumber.filter.tags="@regression"
+
+      - name: Archive Cucumber HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-report
+          path: target/cucumber-reports/Cucumber.html
