@@ -1,0 +1,41 @@
+name: Regression tests
+
+on:
+  push:
+    branches:
+      - main
+      - feature/SandeepKurella-CBATest
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Cucumber tags to execute'
+        required: true
+        default: '@regression'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: 'temurin'
+
+      - name: Execute Regression tests
+        run: ./mvnw clean test -Dcucumber.filter.tags="${{ env.CUCUMBER_TAGS }}"
+        env:
+          CUCUMBER_TAGS: ${{ github.event.inputs.tags }}
+
+      - name: Archive Cucumber HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-report
+          path: target/cucumber-reports/Cucumber.html
