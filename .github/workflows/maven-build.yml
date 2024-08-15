@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       tags:
-        description: 'cucumber tags to execute'
+        description: 'Cucumber tags to execute'
         required: true
         default: '@regression'
 
@@ -30,7 +30,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Execute Regression tests
-        run: ./mvnw clean test -Dcucumber.filter.tags="${CUCUMBER_TAGS}"
+        run: ./mvnw clean test -Dcucumber.filter.tags="${{ env.CUCUMBER_TAGS }}"
         env:
           CUCUMBER_TAGS: ${{ github.event.inputs.tags }}
 
