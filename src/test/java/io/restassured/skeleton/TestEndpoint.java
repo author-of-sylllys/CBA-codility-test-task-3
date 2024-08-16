@@ -98,6 +98,7 @@ public abstract class TestEndpoint {
 
     UtilityHooks.extractAPIDetailsIntoLogs();
 
+    PreviousTestEndpoint.details(request, response, endPointURL, httpMethod);
   }
 
 }

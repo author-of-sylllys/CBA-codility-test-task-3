@@ -2,9 +2,7 @@ package io.restassured.skeleton;
 
 import java.util.HashMap;
 
-public class TestEndPointDetails {
-
-  private String name;
+public abstract class TestEndPointDetails {
   private String url;
   private String method;
   private HashMap<String, String> path_variables;
@@ -13,14 +11,6 @@ public class TestEndPointDetails {
   private HashMap<String, String> cookies;
   private String body;
 
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
 
   public String getUrl() {
     return url;
