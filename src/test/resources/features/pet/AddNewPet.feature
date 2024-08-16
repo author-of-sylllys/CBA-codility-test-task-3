@@ -66,6 +66,12 @@ Feature: Add a new pet to the store
     Then verify response code is 400
 
   @unhappy-path
+  Scenario: Verify a new pet cannot be added if field:id is greater allowed value of int64
+    Given I send a request to add a new pet, with following details
+      | $.id:9223372036854775808 |
+    Then verify response code is 400
+
+  @unhappy-path
   Scenario: Verify a new pet cannot be added if field:category.id is not an integer
     Given I send a request to add a new pet, with following details
       | $.category.id:abc |
