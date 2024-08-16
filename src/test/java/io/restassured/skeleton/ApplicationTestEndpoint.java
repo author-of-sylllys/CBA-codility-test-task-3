@@ -41,7 +41,7 @@ public class ApplicationTestEndpoint extends TestEndpoint {
 
     for (String editDetail : editDetails) {
 
-      editBody(editDetail.split(":")[0], editDetail.split(":")[1]);
+      editBody(editDetail.split(":", 2)[0], editDetail.split(":", 2)[1]);
 
     }
   }
