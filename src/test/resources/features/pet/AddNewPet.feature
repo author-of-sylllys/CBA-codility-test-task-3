@@ -46,3 +46,33 @@ Feature: Add a new pet to the store
     Given I send a request to add a new pet, with following details
       | $.photoUrls:null |
     Then verify response code is 400
+
+  @unhappy-path
+  Scenario: Verify a new pet cannot be added if mandatory field:photoUrls is empty
+    Given I send a request to add a new pet, with following details
+      | $.photoUrls:[] |
+    Then verify response code is 400
+
+  @unhappy-path
+  Scenario: Verify a new pet cannot be added if field:id is not an integer
+    Given I send a request to add a new pet, with following details
+      | $.id:abc |
+    Then verify response code is 400
+
+  @unhappy-path
+  Scenario: Verify a new pet cannot be added if field:category.id is not an integer
+    Given I send a request to add a new pet, with following details
+      | $.category.id:abc |
+    Then verify response code is 400
+
+  @unhappy-path
+  Scenario: Verify a new pet cannot be added if field:tags[*].id is not an integer
+    Given I send a request to add a new pet, with following details
+      | $.tags[0].id:abc |
+    Then verify response code is 400
+
+  @unhappy-path
+  Scenario: Verify a new pet cannot be added if field:status is not one of the allowed values:available, pending, sold
+    Given I send a request to add a new pet, with following details
+      | $.status:junk |
+    Then verify response code is 400
