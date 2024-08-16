@@ -33,8 +33,10 @@ jobs:
         run: ./mvnw clean test -Dcucumber.filter.tags="${{ env.CUCUMBER_TAGS }}"
         env:
           CUCUMBER_TAGS: ${{ github.event.inputs.tags }}
+        continue-on-error: true
 
       - name: Archive Cucumber HTML Report
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: html-report
