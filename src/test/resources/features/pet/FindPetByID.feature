@@ -16,11 +16,16 @@ Feature: Find pet by ID
       | $.tags[0].name  | pink                                      |
       | $.status        | available                                 |
 
-#  @unhappy-path
-#  Scenario: Verify an error response is returned when a pet cannot be retrieved
-#    Given I send a request to add a new pet, with following details
-#      | $.id:null                                                |
-#    Then verify response body is JSON with tuple(s)
-#      | $.code    | 1             |
-#      | $.type    | error         |
-#      | $.message | Pet not found |
+  @unhappy-path
+  Scenario: Verify an error response is returned when a pet cannot be retrieved using provided pet id
+    Given I send a request to fina a pet using id:988
+    Then verify response code is 404
+    Then verify response body is JSON with tuple(s)
+      | $.message | Pet not found |
+
+  @unhappy-path
+  Scenario: Verify an error response is returned when provided pet id is invalid (wrong datatype)
+    Given I send a request to fina a pet using id:junk
+    Then verify response code is 400
+    Then verify response body is JSON with tuple(s)
+      | $.message | Invalid ID supplied |
