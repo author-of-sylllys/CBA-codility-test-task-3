@@ -48,7 +48,7 @@ public class ApplicationTestEndpoint extends TestEndpoint {
 
   public void editBody(String tupleName, String tupleValue) {
 
-    endPointDetails.setBody(JSONFactory.editJSON(endPointDetails.getBody(),
+    endPointDetails.setBody(JSONFactory.editJSON(endPointDetails.getBody().toString(),
         tupleName, tupleValue));
     super.request.body(endPointDetails.getBody());
 

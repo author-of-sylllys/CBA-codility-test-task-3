@@ -3,10 +3,12 @@ package io.cucumber.skeleton;
 
 import endpoints.AddNewPetEndpoint;
 import endpoints.FindPetByIdEndpoint;
+import endpoints.UploadPetImageEndpoint;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.skeleton.ApplicationTestEndpoint;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -24,7 +26,7 @@ public class StepDefinitions {
   }
 
   @Given("I send a request to add a new pet, with following details")
-  public void sendValidRequestAddPet(List<String> editDetails) throws Exception {
+  public void sendRequestAddPet(List<String> editDetails) throws Exception {
 
     System.out.println("Sending Add PET request after editing");
 
@@ -36,7 +38,7 @@ public class StepDefinitions {
   }
 
   @Then("^I send a request to fina a pet using id:(.*)$")
-  public void sendValidRequestAddPet(String petId) throws Exception {
+  public void sendRequestToFindPet(String petId) throws Exception {
 
     System.out.println("Sending Find PET by ID request");
 
@@ -49,12 +51,58 @@ public class StepDefinitions {
     applicationTestEndpoint.sendRequest();
   }
 
+  @Then("^I send a request to upload a pet image using id:(.*)$")
+  public void sendRequestUploadPetImage(String petId) throws Exception {
+
+    System.out.println("Uploading PET image using it's ID");
+
+    UploadPetImageEndpoint uploadPetImageEndpoint = new UploadPetImageEndpoint();
+    uploadPetImageEndpoint.setPathVariable("petId", petId.trim());
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(uploadPetImageEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
+  }
+
+  @Then("^I send an empty request to upload a pet image using id:(.*)$")
+  public void sendEmptyRequestUploadPetImage(String petId) throws Exception {
+
+    System.out.println("Uploading PET image using it's ID with out file attached");
+
+    UploadPetImageEndpoint uploadPetImageEndpoint = new UploadPetImageEndpoint();
+    uploadPetImageEndpoint.setPathVariable("petId", petId.trim());
+    uploadPetImageEndpoint.setBody(null);
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(uploadPetImageEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
+  }
+
+  @Then("^I send a request with mandatory data to upload a pet image using id:(.*)$")
+  public void sendRequestWithMandotoryUploadPetImage(String petId) throws Exception {
+
+    System.out.println("Uploading PET image using it's ID with out file attached");
+
+    UploadPetImageEndpoint uploadPetImageEndpoint = new UploadPetImageEndpoint();
+    uploadPetImageEndpoint.setPathVariable("petId", petId.trim());
+    HashMap<String, String> formData = (HashMap<String, String>) uploadPetImageEndpoint.getBody();
+    formData.remove("additionalMetadata");
+    uploadPetImageEndpoint.setBody(formData);
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(uploadPetImageEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
+  }
+
   @Given("a new pet is added to the store with id:{int}")
   public void addNewPetToStore(int petId) throws Exception {
 
     List<String> editDetails = new ArrayList<>();
     editDetails.add("$.id:" + petId);
-    sendValidRequestAddPet(editDetails);
+    sendRequestAddPet(editDetails);
 
     JSONResponseValidationStepDefinitions jsonResponseValidationStepDefinitions = new JSONResponseValidationStepDefinitions();
     jsonResponseValidationStepDefinitions.verifyResponseCode(200);

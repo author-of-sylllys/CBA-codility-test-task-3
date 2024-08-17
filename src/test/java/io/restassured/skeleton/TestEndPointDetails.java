@@ -3,13 +3,14 @@ package io.restassured.skeleton;
 import java.util.HashMap;
 
 public abstract class TestEndPointDetails {
+
   private String url;
   private String method;
   private HashMap<String, String> path_variables;
   private HashMap<String, String> parameters;
   private HashMap<String, String> headers;
   private HashMap<String, String> cookies;
-  private String body;
+  private Object body;
 
 
   public String getUrl() {
@@ -88,11 +89,11 @@ public abstract class TestEndPointDetails {
     this.cookies = cookies;
   }
 
-  public String getBody() {
+  public Object getBody() {
     return body;
   }
 
-  public void setBody(String body) {
+  public void setBody(Object body) {
     this.body = body;
   }
 
