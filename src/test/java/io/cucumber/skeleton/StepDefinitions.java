@@ -3,6 +3,7 @@ package io.cucumber.skeleton;
 
 import endpoints.AddNewPetEndpoint;
 import endpoints.FindPetByIdEndpoint;
+import endpoints.UpdateExistingPetEndpoint;
 import endpoints.UploadPetImageEndpoint;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -32,6 +33,18 @@ public class StepDefinitions {
 
     ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
     applicationTestEndpoint.setEndPointDetails(new AddNewPetEndpoint());
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.editBody(editDetails);
+    applicationTestEndpoint.sendRequest();
+  }
+
+  @Then("I send a request to update an existing pet, with following details")
+  public void sendRequestUpdatePet(List<String> editDetails) throws Exception {
+
+    System.out.println("Sending Update PET request after editing");
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(new UpdateExistingPetEndpoint());
     applicationTestEndpoint.constructRequest();
     applicationTestEndpoint.editBody(editDetails);
     applicationTestEndpoint.sendRequest();

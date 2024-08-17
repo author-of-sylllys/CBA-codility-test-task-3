@@ -1,0 +1,16 @@
+{
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "toy"
+  },
+  "name": "luckee",
+  "photoUrls": ["https://petphotos.com.au/my-pet-pic2.jpeg"],
+  "tags": [
+    {
+      "id": 0,
+      "name": "purple"
+    }
+  ],
+  "status": "sold"
+}
