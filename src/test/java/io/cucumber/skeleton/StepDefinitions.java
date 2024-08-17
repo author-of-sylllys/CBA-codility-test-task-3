@@ -5,6 +5,7 @@ import endpoints.AddNewPetEndpoint;
 import endpoints.DeletePetByIdEndpoint;
 import endpoints.FindPetByIdEndpoint;
 import endpoints.UpdateExistingPetEndpoint;
+import endpoints.UpdatePetUsingFormDataEndpoint;
 import endpoints.UploadPetImageEndpoint;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -132,6 +133,35 @@ public class StepDefinitions {
 
     ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
     applicationTestEndpoint.setEndPointDetails(deletePetByIdEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
+  }
+
+  @Then("^I send a form data request to update a pet with id:(.*)$")
+  public void sendFormDataRequestUpdatePetImage(String petId) throws Exception {
+
+    System.out.println("Update PET with form data using it's ID");
+
+    UpdatePetUsingFormDataEndpoint updatePetUsingFormDataEndpoint = new UpdatePetUsingFormDataEndpoint();
+    updatePetUsingFormDataEndpoint.setPathVariable("petId", petId.trim());
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(updatePetUsingFormDataEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
+  }
+
+  @Then("^I send a request with mandatory form data request to update a pet with id:(.*)$")
+  public void sendMandotoryFormDataRequestToUpdatePet(String petId) throws Exception {
+
+    System.out.println("Update PET with mandatory form data using it's ID");
+
+    UpdatePetUsingFormDataEndpoint updatePetUsingFormDataEndpoint = new UpdatePetUsingFormDataEndpoint();
+    updatePetUsingFormDataEndpoint.setPathVariable("petId", petId.trim());
+    updatePetUsingFormDataEndpoint.setBody(null);
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(updatePetUsingFormDataEndpoint);
     applicationTestEndpoint.constructRequest();
     applicationTestEndpoint.sendRequest();
   }

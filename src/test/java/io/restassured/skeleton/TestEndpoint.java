@@ -83,6 +83,14 @@ public abstract class TestEndpoint {
                 .multiPart(key, formData.get(key));
           }
         }
+      } else if (requestHeaders != null && requestHeaders.containsKey("content-type")
+          && requestHeaders
+          .get("content-type")
+          .contains("application/x-www-form-urlencoded")) {
+
+        request.contentType(requestHeaders.get("content-type"))
+            .formParams((Map<String, String>) body);
+
       } else {
 
         request.body(body.toString());
