@@ -2,6 +2,7 @@ package io.cucumber.skeleton;
 
 
 import endpoints.AddNewPetEndpoint;
+import endpoints.DeletePetByIdEndpoint;
 import endpoints.FindPetByIdEndpoint;
 import endpoints.UpdateExistingPetEndpoint;
 import endpoints.UploadPetImageEndpoint;
@@ -119,5 +120,19 @@ public class StepDefinitions {
 
     JSONResponseValidationStepDefinitions jsonResponseValidationStepDefinitions = new JSONResponseValidationStepDefinitions();
     jsonResponseValidationStepDefinitions.verifyResponseCode(200);
+  }
+
+  @Then("^I send a request to delete a pet with id:(.*)$")
+  public void sendRequestToDeletePet(String petId) throws Exception {
+
+    System.out.println("Sending Delete PET by ID request");
+
+    DeletePetByIdEndpoint deletePetByIdEndpoint = new DeletePetByIdEndpoint();
+    deletePetByIdEndpoint.setPathVariable("petId", petId.trim());
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(deletePetByIdEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
   }
 }
