@@ -37,7 +37,7 @@ public class StepDefinitions {
     applicationTestEndpoint.sendRequest();
   }
 
-  @Then("^I send a request to fina a pet using id:(.*)$")
+  @Then("^I send a request to find a pet using id:(.*)$")
   public void sendRequestToFindPet(String petId) throws Exception {
 
     System.out.println("Sending Find PET by ID request");

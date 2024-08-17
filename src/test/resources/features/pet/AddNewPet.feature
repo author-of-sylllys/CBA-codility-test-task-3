@@ -35,6 +35,22 @@ Feature: Add a new pet to the store
       | $.tags[0].name  | does not exists                           |
       | $.status        | does not exists                           |
 
+  @happy-path
+  Scenario Outline: Verify a new pet can be added if field:status is one of the allowed values:available, pending, sold
+    Given I send a request to add a new pet, with following details
+      | $.id:<petId>      |
+      | $.status:<status> |
+    Then verify response code is 200
+    Then verify response body is JSON with tuple(s)
+      | $.id     | <petId>  |
+      | $.status | <status> |
+
+    Examples:
+      | petId | status    |
+      | 66618 | available |
+      | 66619 | pending   |
+      | 66620 | sold      |
+
   @unhappy-path
   Scenario: Verify a new pet cannot be added if mandatory field:name is missing
     Given I send a request to add a new pet, with following details
