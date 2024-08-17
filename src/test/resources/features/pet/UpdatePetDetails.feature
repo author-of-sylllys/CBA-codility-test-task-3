@@ -55,7 +55,7 @@ Feature: Update an existing pet details in the store
       | 66620 | sold      |
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if mandatory field:name is missing
+  Scenario: Verify an existing pet cannot be updated if mandatory field:name is missing
     Given a new pet is added to the store with id:66611
     Then I send a request to update an existing pet, with following details
       | $.id:66611  |
@@ -63,7 +63,7 @@ Feature: Update an existing pet details in the store
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if mandatory field:photoUrls is missing
+  Scenario: Verify an existing pet cannot be updated if mandatory field:photoUrls is missing
     Given a new pet is added to the store with id:66612
     Then I send a request to update an existing pet, with following details
       | $.id:66612       |
@@ -71,7 +71,7 @@ Feature: Update an existing pet details in the store
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if mandatory field:photoUrls is empty
+  Scenario: Verify an existing pet cannot be updated if mandatory field:photoUrls is empty
     Given a new pet is added to the store with id:66613
     Then I send a request to update an existing pet, with following details
       | $.id:66613     |
@@ -79,7 +79,7 @@ Feature: Update an existing pet details in the store
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if field:photoUrls is not a valid URL
+  Scenario: Verify an existing pet cannot be updated if field:photoUrls is not a valid URL
     Given a new pet is added to the store with id:66614
     Then I send a request to update an existing pet, with following details
       | $.id:66614          |
@@ -87,19 +87,19 @@ Feature: Update an existing pet details in the store
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if field:id is not an integer
+  Scenario: Verify an existing pet cannot be updated if field:id is not an integer
     Then I send a request to update an existing pet, with following details
       | $.id:abc |
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if field:id is greater allowed value of int64
+  Scenario: Verify an existing pet cannot be updated if field:id is greater allowed value of int64
     Then I send a request to update an existing pet, with following details
       | $.id:9223372036854775808 |
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if field:category.id is not an integer
+  Scenario: Verify an existing pet cannot be updated if field:category.id is not an integer
     Given a new pet is added to the store with id:66615
     Then I send a request to update an existing pet, with following details
       | $.id:66615        |
@@ -107,7 +107,7 @@ Feature: Update an existing pet details in the store
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if field:tags[*].id is not an integer
+  Scenario: Verify an existing pet cannot be updated if field:tags[*].id is not an integer
     Given a new pet is added to the store with id:66616
     Then I send a request to update an existing pet, with following details
       | $.id:66616       |
@@ -115,9 +115,13 @@ Feature: Update an existing pet details in the store
     Then verify response code is 400
 
   @unhappy-path
-  Scenario: Verify an existing pet can be updated if field:status is not one of the allowed values:available, pending, sold
+  Scenario: Verify an existing pet cannot be updated if field:status is not one of the allowed values:available, pending, sold
     Given a new pet is added to the store with id:66617
     Then I send a request to update an existing pet, with following details
       | $.id:66617    |
       | $.status:junk |
     Then verify response code is 400
+
+#Design flaw 1: Update pet endpoint does not mention id field as mandatory field, however to update a pet, id field is required
+#Design flaw 2: Update pet endpoint creates new pet when id is provided as null
+#Design flaw 3: Update pet endpoint is only to update an existing pet, however this endpoint creates a pet if not found

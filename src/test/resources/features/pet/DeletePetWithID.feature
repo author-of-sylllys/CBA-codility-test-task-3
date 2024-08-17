@@ -18,9 +18,11 @@ Feature: Delete pet with ID
     Then verify response body is JSON with tuple(s)
       | $.message | Pet not found |
 
-  @unhappy-path @only
+  @unhappy-path
   Scenario: Verify an error response is returned when provided pet id is invalid (wrong datatype)
     Then I send a request to delete a pet with id:junk
     Then verify response code is 400
     Then verify response body is JSON with tuple(s)
       | $.message | Invalid ID supplied |
+
+# Desing flaw: delete endpoint requests for api endpoint key, however no logical explanation of its purpose

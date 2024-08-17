@@ -56,6 +56,9 @@ public class JSONResponseValidationStepDefinitions {
       } else if (value.startsWith("does not have item ")) {
         JSONFactory.assertNoItem(body, key, value.substring(19));
       } else {
+        if(body==null || body.trim().isEmpty()){
+          assertTrue("Unable to perform response body validation since it is empty, which is not as expected", false);
+        }
         JSONFactory.assertValue(body, key, value);
       }
 
