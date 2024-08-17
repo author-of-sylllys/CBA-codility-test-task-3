@@ -4,6 +4,7 @@ package io.cucumber.skeleton;
 import endpoints.AddNewPetEndpoint;
 import endpoints.DeletePetByIdEndpoint;
 import endpoints.FindPetByIdEndpoint;
+import endpoints.FindPetsByStatusEndpoint;
 import endpoints.UpdateExistingPetEndpoint;
 import endpoints.UpdatePetUsingFormDataEndpoint;
 import endpoints.UploadPetImageEndpoint;
@@ -98,7 +99,7 @@ public class StepDefinitions {
   @Then("^I send a request with mandatory data to upload a pet image using id:(.*)$")
   public void sendRequestWithMandotoryUploadPetImage(String petId) throws Exception {
 
-    System.out.println("Uploading PET image using it's ID with out file attached");
+    System.out.println("Uploading PET image using it's ID with mandatory data");
 
     UploadPetImageEndpoint uploadPetImageEndpoint = new UploadPetImageEndpoint();
     uploadPetImageEndpoint.setPathVariable("petId", petId.trim());
@@ -162,6 +163,34 @@ public class StepDefinitions {
 
     ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
     applicationTestEndpoint.setEndPointDetails(updatePetUsingFormDataEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
+  }
+
+  @Given("^I send a request to find pets by status:(.*)$")
+  public void sendRequestToFindPetsByStatus(String petStatus) throws Exception {
+
+    System.out.println("Sending Find pets by status request");
+
+    FindPetsByStatusEndpoint findPetsByStatusEndpoint = new FindPetsByStatusEndpoint();
+    findPetsByStatusEndpoint.setParameter("status",petStatus);
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(findPetsByStatusEndpoint);
+    applicationTestEndpoint.constructRequest();
+    applicationTestEndpoint.sendRequest();
+  }
+
+  @Given("^I send a request to find pets without status parameter$")
+  public void sendRequestToFindPetsWithoutStatus() throws Exception {
+
+    System.out.println("Sending Find pets by status request");
+
+    FindPetsByStatusEndpoint findPetsByStatusEndpoint = new FindPetsByStatusEndpoint();
+    findPetsByStatusEndpoint.setParameters(null);
+
+    ApplicationTestEndpoint applicationTestEndpoint = new ApplicationTestEndpoint();
+    applicationTestEndpoint.setEndPointDetails(findPetsByStatusEndpoint);
     applicationTestEndpoint.constructRequest();
     applicationTestEndpoint.sendRequest();
   }
